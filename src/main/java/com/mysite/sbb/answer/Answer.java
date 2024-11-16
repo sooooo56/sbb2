@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import com.mysite.sbb.user.SiteUser;
 
 @Getter
 @Setter
@@ -27,4 +28,7 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }
