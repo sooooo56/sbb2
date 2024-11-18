@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import com.mysite.sbb.user.SiteUser;
+import java.util.Set;
+import jakarta.persistence.ManyToMany;
 
 @Getter
 @Setter
@@ -33,4 +35,7 @@ public class Answer {
     private SiteUser author;
 
     private LocalDateTime modifyDate;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }
