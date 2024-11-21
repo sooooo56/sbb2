@@ -39,7 +39,7 @@
             th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
 
         <!-- 답변 반복 시작 -->
-        <div class="card my-3" th:each="answer : ${question.answerList}">
+        <div class="card my-3" th:each="answer : ${answerPage.content}">
             <a th:id="|answer_${answer.id}|"></a>
             <div class="card-body">
                 <div class="card-text" th:utext="${@commonUtil.markdown(answer.content)}"></div>
@@ -72,7 +72,30 @@
                 </div>
             </div>
         </div>
-        <!-- 답변 반복 끝  -->
+        <!-- 답변 반복 끝 -->
+
+        <!-- 페이징 네비게이션 -->
+        <div class="pagination my-4">
+            <ul class="pagination">
+                <!-- 이전 페이지 -->
+                <li th:classappend="${answerPage.hasPrevious()} ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link" th:href="@{'/detail/' + ${question.id} + '?page=' + (${answerPage.number} - 1)}">이전</a>
+                </li>
+
+                <!-- 페이지 번호 -->
+                <li th:each="pageNum : ${#numbers.sequence(0, answerPage.totalPages - 1)}"
+                    th:classappend="${pageNum == answerPage.number} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:href="@{'/detail/' + ${question.id} + '?page=' + ${pageNum}}"
+                       th:text="${pageNum + 1}"></a>
+                </li>
+
+                <!-- 다음 페이지 -->
+                <li th:classappend="${answerPage.hasNext()} ? 'page-item' : 'page-item disabled'">
+                    <a class="page-link" th:href="@{'/detail/' + ${question.id} + '?page=' + (${answerPage.number} + 1)}">다음</a>
+                </li>
+            </ul>
+        </div>
+
 
         <!-- 답변 작성 -->
         <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
