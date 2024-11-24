@@ -7,6 +7,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- 카테고리 드롭다운 메뉴 -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            카테고리
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <!-- Thymeleaf로 카테고리 리스트 출력 -->
+            <li th:each="category : ${categoryList}">
+              <a class="dropdown-item" th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}"></a>
+            </li>
+          </ul>
+        </li>
+        <!-- 로그인/로그아웃 -->
         <li class="nav-item">
           <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
           <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>

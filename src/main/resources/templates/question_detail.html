@@ -71,6 +71,39 @@
                        th:text="삭제"></a>
                 </div>
             </div>
+
+            <!-- 댓글 섹션 시작 -->
+            <div class="card mt-3 ms-3">
+                <div class="card-body">
+                    <h5>댓글</h5>
+                    <!-- 댓글 반복 -->
+                    <div th:each="comment : ${answer.comments}">
+                        <div class="mb-2">
+                            <strong th:text="${comment.author.username}">작성자</strong>
+                            <span th:text="${comment.content}">댓글 내용</span>
+                        </div>
+                        <div class="ms-3">
+                            <!-- 대댓글 반복 -->
+                            <div th:each="child : ${comment.childComments}">
+                                <strong th:text="${child.author.username}">대댓글 작성자</strong>
+                                <span th:text="${child.content}">대댓글 내용</span>
+                            </div>
+                            <!-- 대댓글 작성 폼 -->
+                            <form th:action="@{/comment/create/{answerId}(answerId=${answer.id})}" method="post">
+                                <input type="hidden" name="parentId" th:value="${comment.id}" />
+                                <textarea class="form-control mb-2" name="content" placeholder="대댓글 작성"></textarea>
+                                <button type="submit" class="btn btn-sm btn-primary">답글</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- 댓글 작성 폼 -->
+                    <form th:action="@{/comment/create/{answerId}(answerId=${answer.id})}" method="post">
+                        <textarea class="form-control mb-2" name="content" placeholder="댓글 작성"></textarea>
+                        <button type="submit" class="btn btn-primary">댓글 작성</button>
+                    </form>
+                </div>
+            </div>
+            <!-- 댓글 섹션 끝 -->
         </div>
         <!-- 답변 반복 끝 -->
 
